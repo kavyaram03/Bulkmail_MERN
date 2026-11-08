@@ -11,7 +11,11 @@ function App() {
 
   useEffect(function () {
     axios.get("https://bulkmail-mern-two.vercel.app/emailhistory").then(function (data) {
-      sethistory(data.data)
+      if (Array.isArray(data.data)) {
+        sethistory(data.data)
+      } else {
+        console.log("History is not an array:", data.data)
+      }
     }).catch(function (error) {
       console.log(error)
     })
@@ -52,7 +56,9 @@ function App() {
         if (data.data === true) {
           alert("Email sent successfully")
           axios.get("https://bulkmail-mern-two.vercel.app/emailhistory").then(function (result) {
-            sethistory(result.data)
+            if (Array.isArray(result.data)) {
+              sethistory(result.data)
+            }
           })
         }
         else {
